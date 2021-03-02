@@ -25,7 +25,7 @@ def rasterio_loader(path: str) -> torch.Tensor:
         meta = {
             'bounds': r.bounds,
             'transform': r.transform,
-            'crs': r.crs
+            'crs': r.crs.as_dict()
         }
         x = torch.as_tensor(r.read()).float()
         x.metadata = meta
@@ -40,6 +40,7 @@ def meta_collate(batch):
     :param batch: list of tensors to batch
     :return: the batch
     """
+    # print(batch[0][0].metadata)
     newbatch = default_collate(batch)
 
     for i, x in enumerate(newbatch):
