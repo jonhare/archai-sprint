@@ -40,11 +40,11 @@ def meta_collate(batch):
     :param batch: list of tensors to batch
     :return: the batch
     """
-    batch = default_collate(batch)
+    newbatch = default_collate(batch)
 
-    for i, x in enumerate(batch):
-        x.metadata = [a[i].metadata if hasattr(a[i], 'metadata') else {} for a in batch]
-    return batch
+    for i, x in enumerate(newbatch):
+        x.metadata = [batch[j][i].metadata if hasattr(batch[j][i], 'metadata') else {} for j in range(len(batch))]
+    return newbatch
 
 
 class MultiSegmentationDataset(Dataset):
