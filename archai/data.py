@@ -51,10 +51,11 @@ class MultiSegmentationDataset(Dataset):
     def __init__(self, root, input_types, target_types, name_regex='_\\d+_\\d+', target_prefix='mask'):
         self.root = root
         self.input_types = input_types if isinstance(input_types, collections.Sequence) else tuple(input_types)
-        self.target_types = target_types  if isinstance(target_types, collections.Sequence) else tuple(target_types)
+        self.target_types = target_types if isinstance(target_types, collections.Sequence) else tuple(target_types)
 
         searchdir = join(root, input_types[0])
-        self.image_names = [f for f in listdir(searchdir) if isfile(join(searchdir, f)) and f.endswith(".tif")]
+        self.image_names = [f for f in listdir(searchdir) if isfile(join(searchdir, f)) and f.endswith(".tif")
+                            and not f.startswith('.')]
 
         self.name_regex = name_regex
         self.target_prefix = target_prefix
